@@ -1,0 +1,20 @@
+.app {
+  min-height: 100vh;
+  background-color: #101010;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: 60px;
+}
+
+.info-text {
+  color: #bbb;
+  font-size: 1.1rem;
+  margin-top: 50px;
+}

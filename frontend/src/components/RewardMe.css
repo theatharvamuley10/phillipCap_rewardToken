@@ -1,0 +1,36 @@
+.reward-box {
+  background-color: #1a1a1a;
+  padding: 20px 30px;
+  border-radius: 10px;
+  width: 320px;
+  text-align: center;
+}
+
+.reward-box h2 {
+  margin-bottom: 10px;
+}
+
+.reward-box input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background-color: #262626;
+  color: #fff;
+}
+
+.reward-box button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.reward-box button:hover {
+  background-color: #43a047;
+}

@@ -9,7 +9,7 @@ contract RewardToken is ERC20 {
     event OwnerUpdated(address indexed);
 
     address public OWNER;
-    uint256 public constant TOTAL_SUPPLY = 1_000_000;
+    uint256 public constant TOTAL_SUPPLY = 1_000_000e18;
 
     modifier onlyOwner() {
         if (msg.sender != OWNER) revert Err_NotOwner();

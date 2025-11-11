@@ -1,0 +1,36 @@
+.transfer-box {
+  background-color: #1a1a1a;
+  padding: 20px 30px;
+  border-radius: 10px;
+  width: 320px;
+  text-align: center;
+}
+
+.transfer-box h2 {
+  margin-bottom: 10px;
+}
+
+.transfer-box input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background-color: #262626;
+  color: #fff;
+}
+
+.transfer-box button {
+  background-color: #f5d142;
+  color: #000;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.transfer-box button:hover {
+  background-color: #ffd700;
+}
