@@ -11,6 +11,7 @@ function App() {
   const [account, setAccount] = useState(null);
   const [contract, setContract] = useState(null);
   const [balance, setBalance] = useState("0");
+  const [contractOwner, setContractOwner] = useState("");
 
   const connectWallet = async () => {
     try {
@@ -43,16 +44,8 @@ function App() {
     try {
       if (!contractInstance || !address) return;
       const bal = await contractInstance.balanceOf(address);
-      setBalance(ethers.formatUnits(bal, 18));
-    } catch (err) {
-      console.error("Error fetching balance:", err);
-    }
-  };
-
-  const fetchOwner = async (contractInstance) => {
-    try {
-      if (!contractInstance) return;
-      const owner = await contractInstance.OWNER();
+      const owner = await contractInstance.getOwner();
+      setContractOwner(owner);
       setBalance(ethers.formatUnits(bal, 18));
     } catch (err) {
       console.error("Error fetching balance:", err);
@@ -65,6 +58,7 @@ function App() {
       <main className="main-content">
         {contract ? (
           <>
+            <>Token Contract Owner - {contractOwner}</>
             <BalanceOf balance={balance} />
             <TransferToken
               contract={contract}
