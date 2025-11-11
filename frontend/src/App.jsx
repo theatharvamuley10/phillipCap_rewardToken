@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import Header from "./components/Header";
-import BalanceOf from "./components/BalanceOf";
-import TransferToken from "./components/TransferToken";
-import RewardMe from "./components/RewardMe";
+import Header from "./components/Header/Header.jsx";
+import BalanceOf from "./components/BalanceOf/BalanceOf.jsx";
+import TransferToken from "./components/Transfer/TransferToken.jsx";
+import RewardMe from "./components/RewardMe/RewardMe.jsx";
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from "./constants.js";
 import "./App.css";
 
@@ -43,6 +43,16 @@ function App() {
     try {
       if (!contractInstance || !address) return;
       const bal = await contractInstance.balanceOf(address);
+      setBalance(ethers.formatUnits(bal, 18));
+    } catch (err) {
+      console.error("Error fetching balance:", err);
+    }
+  };
+
+  const fetchOwner = async (contractInstance) => {
+    try {
+      if (!contractInstance) return;
+      const owner = await contractInstance.OWNER();
       setBalance(ethers.formatUnits(bal, 18));
     } catch (err) {
       console.error("Error fetching balance:", err);

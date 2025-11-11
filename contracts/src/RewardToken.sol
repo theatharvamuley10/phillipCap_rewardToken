@@ -22,8 +22,11 @@ contract RewardToken is ERC20, ERC20Permit, Pausable {
     /// @notice thrown when an invalid address is provided
     error InvalidAddress();
 
-    /// @notice thrown when caller is not the pending owner during ownership acceptance
+    /// @notice thrown when caller is not the peding owner during ownership acceptance
     error NotPendingOwner();
+
+    /// @notice thrown when owner tries to reward themselves - invalid coz owner is the distributor himself
+    error OwnerCannotRewardThemself();
 
     /*//////////////////////////////////////////////////////////////
                                  EVENTS
@@ -50,8 +53,8 @@ contract RewardToken is ERC20, ERC20Permit, Pausable {
     /// @notice current owner with admin privileges
     address public OWNER;
 
-    /// @notice total supply of tokens,keeping it constant for gas savings
-    uint256 public constant TOTAL_SUPPLY = 1_000_000e18;
+    /// @notice total supply of tokens
+    uint256 public TOTAL_SUPPLY = 1_000_000;
 
     /// @notice address pending to accept ownership
     address public pendingOwner;
@@ -60,7 +63,7 @@ contract RewardToken is ERC20, ERC20Permit, Pausable {
                               MODIFIERS
     //////////////////////////////////////////////////////////////*/
 
-    /// @dev modifier that restricts function access to the current owner only
+    /// @dev mdifier that restricts function access to the current owner only
     modifier onlyOwner() {
         if (msg.sender != OWNER) revert Err_NotOwner();
         _;
@@ -77,7 +80,7 @@ contract RewardToken is ERC20, ERC20Permit, Pausable {
      */
     constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) ERC20Permit(_name) {
         OWNER = msg.sender;
-        mint(msg.sender, TOTAL_SUPPLY);
+        mint(msg.sender, TOTAL_SUPPLY * 1e18);
     }
 
     /*//////////////////////////////////////////////////////////////
@@ -97,35 +100,39 @@ contract RewardToken is ERC20, ERC20Permit, Pausable {
         whenNotPaused
         returns (uint256 newUserBalance)
     {
-        transferFrom(OWNER, user, amount);
+        if (user == OWNER) revert OwnerCannotRewardThemself();
+        transfer(user, amount);
         return balanceOf(user);
     }
 
     /**
-     * @notice transfers tokens, disabled when paused
+     * @notice transfers tokens from msg.sender, disabled when paused
      */
     function transfer(address to, uint256 value) public override whenNotPaused returns (bool) {
         return super.transfer(to, value);
     }
 
     /**
-     * @notice transfers tokens on behalf of another address, disabled when paused
+     * @notice transfers tokens on behalf of another address, disabled when paused. needs approval
      */
     function transferFrom(address from, address to, uint256 value) public override whenNotPaused returns (bool) {
         return super.transferFrom(from, to, value);
     }
+
+    /// @notice other important user facing functions inherited from ERC20 and ERC20Permit - balanceOf(address), permit().
 
     /*//////////////////////////////////////////////////////////////
                               ADMIN FUNCTIONS
     //////////////////////////////////////////////////////////////*/
 
     /**
-     * @notice mints new tokens to a specified address
-     * @dev callable only by owner and when contract not paused
+     * @notice mints new tokens to the specified address
+     * @dev callable only by owner when contract not paused
      * @param to recipient address
      * @param value amount to mint
      */
     function mint(address to, uint256 value) public onlyOwner whenNotPaused {
+        TOTAL_SUPPLY += value;
         _mint(to, value);
     }
 
@@ -142,7 +149,6 @@ contract RewardToken is ERC20, ERC20Permit, Pausable {
 
     /**
      * @notice allows pending owner to accept ownership
-     * reverts if caller is not the pending owner
      */
     function acceptOwnership() external {
         if (pendingOwner != msg.sender) revert NotPendingOwner();
@@ -151,21 +157,21 @@ contract RewardToken is ERC20, ERC20Permit, Pausable {
     }
 
     /**
-     * @notice returns the current owner address
+     * @notice returns current admin's address
      */
     function getOwner() external view returns (address) {
         return OWNER;
     }
 
     /**
-     * @notice returns the total token supply
+     * @notice returns total token supply
      */
-    function getTotalSupply() external pure returns (uint256) {
+    function getTotalSupply() external view returns (uint256) {
         return TOTAL_SUPPLY;
     }
 
     /**
-     * @notice triggers emergency pause, disabling token transfers and minting
+     * @notice triggers emergency pause
      * @dev accessible only by the owner
      */
     function pause() external onlyOwner {
@@ -173,7 +179,7 @@ contract RewardToken is ERC20, ERC20Permit, Pausable {
     }
 
     /**
-     * @notice lifts the emergency pause, re-enabling token operations
+     * @notice stops emergency pause
      * @dev accessible only by the owner
      */
     function unpause() external onlyOwner {
