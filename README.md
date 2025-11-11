@@ -9,7 +9,7 @@ It is comprised of a Solidity smart contract (RewardToken.sol), a React frontend
 
 - **Deployed contract address:** `0xb0F09328a0973861EaBfaFc40B42E3b5F346bB85`
 - **Deployment transaction hash:** `0xa1ac195881087b36a74de56a73e274390b25e43d528b2107aff6bf0b0b7e8cf1`
-- **[View Transactions happening on Reward Token Contract on Sepolia Etherscan](https://sepolia.etherscan.io/address/0xb0F09328a0973861EaBfaFc40B42E3b5F346bB85)**
+- **[View Transactions Activity on Reward Token Contract on Sepolia Etherscan](https://sepolia.etherscan.io/address/0xb0F09328a0973861EaBfaFc40B42E3b5F346bB85)**
 
 ### Tech Stack
 
