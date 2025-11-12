@@ -98,4 +98,4 @@ A system can be created with automatic reward system that rewards users on certa
 
 ### Unit Tests Snapshot
 
-![Test Snapshpt](./test-gas-snapshot.png)
+![Test Snapshpt](./test-snapshot.png)
