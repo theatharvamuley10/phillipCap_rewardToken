@@ -95,3 +95,7 @@ Visit `http://localhost:5173`, connect MetaMask, and interact with the DApp.
 ### Future Scope According to me
 
 A system can be created with automatic reward system that rewards users on certain actions like repaying loans, buying a policy, extending a contract with phillip capital. It can also be used to measure their credit score and provide services accordingly. Simple example - more rewards earned by a user indicates more usage of our services and thus that user should have more benefits from us.
+
+### Unit Tests Snapshot
+
+![Test Snapshpt](./test-gas-snapshot.png)
